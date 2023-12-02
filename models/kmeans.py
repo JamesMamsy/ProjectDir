@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
-import streamlit as st
 
 
 # months_pattern=r'C:\Users\al105\OneDrive\Desktop\OU\Data Mining\hehe\Data Files-20231127T233339Z-001\Data Files\*.csv'
@@ -91,16 +90,16 @@ class KMeans:
                         np.linalg.norm(cluster_points - data.iloc[j].values, axis=1)
                     )
 
-        # Calculate silhouette score for each sample
+        # calc silhouette score for each sample
         silhouette_values = (b_values - a_values) / np.maximum(a_values, b_values)
 
-        # Return the mean silhouette score for the entire dataset
+        # return the mean silhouette score for the entire dataset
         return np.mean(silhouette_values)
 
     def cluster_info(self, data):
         if self.centroids is None:
             raise ValueError(
-                "KMeans model has not been fitted. Please call fit() before using this method."
+                "KMeans model has not been fitted. Fit() before using it."
             )
 
         labels = self.assign_to_clusters(data)
@@ -115,7 +114,7 @@ class KMeans:
             distances = np.linalg.norm(cluster_points - centroid, axis=1)
 
             cluster_info_output.append(f"Cluster {i + 1} Info:")
-            cluster_info_output.append(f"Centroid: {centroid}")
+            cluster_info_output.append(f"Centroid at: {centroid}")
             cluster_info_output.append(
                 f"Average Distance to Centroid: {np.mean(distances)}"
             )
@@ -124,15 +123,15 @@ class KMeans:
         return cluster_info_output
 
     def predict(self, dep_delay, arr_delay, dataframe):
-        # Assign data points in the dataframe to clusters
+        # get clusters of original points
         self.assign_to_clusters(dataframe)
-        # Create a new array with DEP_DELAY and ARR_DELAY for prediction
+        # new point to find out which cluster its in
         point = np.array([dep_delay, arr_delay])
 
-        # Calculate distances from centroids for the new point
+        # calc distance form each centriod center
         distances = np.linalg.norm(point - self.centroids, axis=1)
 
-        # Assign the new point to the closest cluster
+        # assign closest centroid id
         predicted_cluster = np.argmin(distances)
 
         return predicted_cluster + 1
