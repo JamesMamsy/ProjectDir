@@ -123,26 +123,29 @@ class KMeans:
         return cluster_info_output
 
     def predict(self, dep_delay, arr_delay, dataframe):
-        # get clusters of original points
+        # get clusters 
         self.assign_to_clusters(dataframe)
-        # new point to find out which cluster its in
+        
+        # user inputs put into np array for calculation
         point = np.array([dep_delay, arr_delay])
 
-        # calc distance form each centriod center
+        # euclidian distance from all centroids
         distances = np.linalg.norm(point - self.centroids, axis=1)
 
-        # assign closest centroid id
-        predicted_cluster = np.argmin(distances)
+        # Assign the new point to the closest cluster
+        predicted_cluster = np.argmin(distances) + 1
 
-        return predicted_cluster + 1
+        # Get the distance to the closest centroid
+        closest_centroid_distance = distances[np.argmin(distances)]
+
+        return predicted_cluster, closest_centroid_distance
 
 
 # flights_df = pd.read_csv(
 #     r"C:\Users\al105\OneDrive\Desktop\OU\Data Mining\hehe\flights.csv"
 # )
 
-# flights_df = flights_df[["DEP_DELAY", "ARR_DELAY"]].dropna()
-# flights_df = flights_df.sample(frac=0.01, random_state=42)
+
 # # print(flights_df.shape)
 # kmeans = KMeans(k=4)
 # kmeans.fit(flights_df)

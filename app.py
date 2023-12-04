@@ -5,7 +5,7 @@ from models.kmeans import KMeans
 
 # Function to load and preprocess data for clustering
 def load_data():
-    # load the df
+    # load the df, CHECK PATH HERE
     flights_df = pd.read_csv(r"data\flights.csv")
 
     # select columns to do clustering on and drop missing values
@@ -29,10 +29,11 @@ def main():
     if st.button("PREDICT CLUSTER"):
         kmeans.fit(df)
 
-        # Predict cluster for the user input
-        predicted_cluster = kmeans.predict(dep_delay, arr_delay, df)
+        # call predict function from kmeans class to see closest cluster of input points
+        predicted_cluster, closest_centroid_distance = kmeans.predict(dep_delay, arr_delay, df)
 
         st.success(f"Predicted Cluster: {predicted_cluster}")
+        st.info(f"Distance to Closest Centroid: {round(closest_centroid_distance,3)}")
 
     # Check if the user has pressed the "SHOW CLUSTERS" button
     if kmeans is not None and st.button("SHOW CLUSTERS INFO"):
