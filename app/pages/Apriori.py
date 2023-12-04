@@ -1,32 +1,34 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
+from models.apriori import FlightDelayApriori
+
+# create instance
+delay_analysis = FlightDelayApriori()
 
 st.markdown("# Apriori")
 st.sidebar.header("Apriori")
-
-
 
 ##Input
 #Enter Month
 month = st.sidebar.selectbox('Select Month of flight',st.session_state['months'].values())
 #Airport Code
 airport = st.sidebar.selectbox('Airport of Departure', st.session_state['airport_codes'])
+#Airline Code
+airline = st.sidebar.selectbox('Airline', st.session_state['airline_codes'])
 #Generate Statistics
 submit = st.sidebar.button('Generate Statistics')
 
 #Display on right
 if(submit):
-    # test_data = {'Probability of Delay': 50}
-    # st.bar_chart(test_data)
+    # Filter and analyze data based on user input
+    filtered_data = delay_analysis.filter_data(month, airline, airport)
+    delay_proportion, highest_support_value = delay_analysis.calculate_probabilities(filtered_data)
 
-    #Convert input
-
-    #Run model
 
     data = pd.DataFrame({
         'Event': ['Probability'],
-        'Probability': [.50]
+        'Probability': [delay_proportion / 100]
     })
 
     # Create a chart
