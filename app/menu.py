@@ -7,7 +7,19 @@ kmeans, apriori, regression = False,False,False #initModels()
 # def initModels():
 #     return False,False,False
 
-st.session_state['airport_codes'] = {"Test":"tst"}
+st.session_state['airport_codes'] = {
+    "New York, NY: John F. Kennedy International":"JFK",
+    "Los Angeles, CA: Los Angeles International":"LAX",
+    "Oklahoma City, OK: Will Rogers World":"OKC"
+}
+
+st.session_state['airline_codes'] = {
+    "American Airlines Inc.":"AA",
+    "Delta Air Lines Inc.":"DL",
+    "Southwest Airlines Co.":"WN",
+    "United Air Lines Inc.":"UA"
+}
+
 
 st.session_state['months'] = {
     1: "January",
