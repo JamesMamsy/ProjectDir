@@ -1,7 +1,11 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
+import sys
+sys.path.append('C:/Users/eliza/PycharmProjects/ProjectDir')
 from models.apriori import FlightDelayApriori
+import config
+
 
 # create instance
 delay_analysis = FlightDelayApriori()
@@ -9,13 +13,18 @@ delay_analysis = FlightDelayApriori()
 st.markdown("# Apriori")
 st.sidebar.header("Apriori")
 
+# Access the dictionaries
+airport_codes = config.airport_codes
+airline_codes = config.airline_codes
+months = config.months
+
 ##Input
 #Enter Month
-month = st.sidebar.selectbox('Select Month of flight',st.session_state['months'].values())
+month = st.sidebar.selectbox('Select Month of flight', config.months.values())
 #Airport Code
-airport = st.sidebar.selectbox('Airport of Departure', st.session_state['airport_codes'])
+airport = st.sidebar.selectbox('Airport of Departure', config.airport_codes.values())
 #Airline Code
-airline = st.sidebar.selectbox('Airline', st.session_state['airline_codes'])
+airline = st.sidebar.selectbox('Airline', config.airline_codes.values())
 #Generate Statistics
 submit = st.sidebar.button('Generate Statistics')
 
