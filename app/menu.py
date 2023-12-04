@@ -1,6 +1,8 @@
 import streamlit as st
 import numpy as np
-from models import KMeans
+from models import LogisiticRegression
+
+st.session_state['regression'] = LogisiticRegression(.1, 1000)
 
 kmeans, apriori, regression = False,False,False #initModels()
 
