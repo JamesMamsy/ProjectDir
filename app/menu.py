@@ -1,8 +1,16 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 from models import LogisiticRegression
 
-st.session_state['regression'] = LogisiticRegression(.1, 1000)
+data_loc = ""
+data = pd.read_pickle(data_loc)
+
+def initModels(data):
+    st.session_state['regression'] = LogisiticRegression(.1, 1000)    
+    lr_X,lr_y = st.session_state['regression'].prep_data(data)
+    st.session_state['regression'].fit(lr_X,lr_y)
+
 
 kmeans, apriori, regression = False,False,False #initModels()
 
