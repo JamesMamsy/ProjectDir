@@ -72,10 +72,7 @@ class FlightDelayApriori:
         delay_only_df = filtered_df[filtered_df['Delay_Status'] == 'Delay']
         transformed_data = self.transform_data(delay_only_df)
         apriori_df = self.apply_transaction_encoder(transformed_data)
-        print(apriori_df.head())
         frequent_itemsets = self.apriori_from_scratch(apriori_df, min_support=0.01)
-        frequent_itemsets_sorted = frequent_itemsets.sort_values('support', ascending=False)
-        print(frequent_itemsets_sorted)
         highest_support_itemset = frequent_itemsets.iloc[0]['itemsets']
         highest_support_value = list(highest_support_itemset)[0]
 

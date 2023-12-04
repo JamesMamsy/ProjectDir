@@ -2,7 +2,7 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 import sys
-sys.path.append('C:/Users/eliza/PycharmProjects/ProjectDir')
+sys.path.append(r'\ProjectDir')
 from models.apriori import FlightDelayApriori
 
 airport_codes = {
