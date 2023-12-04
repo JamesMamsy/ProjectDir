@@ -1,6 +1,6 @@
 import streamlit as st
-
-#import models
+import numpy as np
+from models import KMeans
 
 kmeans, apriori, regression = False,False,False #initModels()
 
