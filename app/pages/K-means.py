@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import sys
+sys.path.append(r'\ProjectDir')
 from models.kmeans import KMeans
 
 # Function to load and preprocess data for clustering
