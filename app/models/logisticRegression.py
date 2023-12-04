@@ -82,6 +82,22 @@ class LogisiticRegression:
             print(np.dot(self.X, self.B)[1])
             #print((1 + np.exp(-1 * np.dot(self.X, self.B) + self.b0))[1])
             print(self.log_loss())
+    
+    def prep_data(data):
+        data = data[:100000].copy()
+
+        selected_collumns = ["ORIGIN_AIRPORT_ID","DEST_AIRPORT_ID","OP_UNIQUE_CARRIER","DEP_DELAY"]
+        isDelayed = [1 if x > 0 else 0 for x in data['ARR_DELAY']]
+
+        prepped_data = data[selected_collumns].copy()
+        prepped_data["OP_UNIQUE_CARRIER"] = prepped_data["OP_UNIQUE_CARRIER"].apply(lambda x: int(x,36))
+        prepped_data = prepped_data.to_numpy()
+
+        prepped_data = np.insert(prepped_data,0,np.asarray(isDelayed),axis=1)
+        prepped_data = prepped_data[~np.isnan(prepped_data).any(axis=1),:]
+        X = prepped_data[:1000,1:]
+        y = prepped_data[:1000,:1]
+        return X,y
         
         
 
