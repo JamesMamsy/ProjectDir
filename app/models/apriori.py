@@ -65,7 +65,6 @@ class FlightDelayApriori:
         all_relevant_cols = delay_bucket_cols + other_relevant_cols
 
         trim_df = filtered_df[all_relevant_cols]
-        print(trim_df.head())
         return trim_df
 
     def calculate_probabilities(self, filtered_df):
