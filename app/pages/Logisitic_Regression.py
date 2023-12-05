@@ -56,5 +56,15 @@ if submit:
         st.sidebar.write("Please select all fields")
     else:
         x = np.array([airports.get(origin), airports.get(dest), int(carrier,36),delay])
-        odds = st.session_state['regression'].predict(x)
-        st.write(odds)
+        predict = st.session_state['regression'].predict(x)
+        odd = st.session_state['regression'].probability(x)
+        col1,col2 = st.columns([1,1])
+        col1.markdown("# Prediction")
+        if(predict):
+            col1.markdown("## Yes")
+        else:
+            col1.markdown("## No")
+
+        col2.markdown("# Probability")
+        string = f"## {odd}"
+        col2.markdown(string)

@@ -1,13 +1,12 @@
 import streamlit as st
 import pandas as pd
 import sys
-sys.path.append(r'\ProjectDir')
 from models.kmeans import KMeans
 
 # Function to load and preprocess data for clustering
 def load_data():
     # load the df, CHECK PATH HERE 
-    flights_df = pd.read_csv(r"data\flights.csv")
+    flights_df = st.session_state['data'][:100000] 
 
     # select columns to do clustering on and drop missing values
     flights_df = flights_df[["DEP_DELAY", "ARR_DELAY"]].dropna()

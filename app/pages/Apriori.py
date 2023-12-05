@@ -32,7 +32,7 @@ months = {
 }
 
 # create instance
-delay_analysis = FlightDelayApriori()
+delay_analysis = FlightDelayApriori(st.session_state['data'])
 
 st.markdown("# Apriori")
 st.sidebar.header("Apriori")
