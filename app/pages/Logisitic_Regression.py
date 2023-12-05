@@ -1,15 +1,12 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 from models import LogisiticRegression
 
 
 st.markdown("# Logistic Regression")
 st.sidebar.header("Logistic Regression")
 
-# Access the dictionaries
-airport_codes = config.airport_codes
-airline_codes = config.airline_codes
-months = config.months
     
 airports = {"ATL":10397,  
             "CLT":11057,  
@@ -23,24 +20,24 @@ airports = {"ATL":10397,
             "SEA":14747,}
 
 carrier =   {
-    "9E",
-    "NK",
-    "YV",
-    "WN",
-    "UA",
-    "QX",
-    "OO",
-    "OH",
-    "MQ",
-    "AA",
-    "HA",
-    "G4",
-    "F9",
-    "DL",
-    "B6",
-    "AS",
-    "YX" 
-}
+        "9E",
+        "NK",
+        "YV",
+        "WN",
+        "UA",
+        "QX",
+        "OO",
+        "OH",
+        "MQ",
+        "AA",
+        "HA",
+        "G4",
+        "F9",
+        "DL",
+        "B6",
+        "AS",
+        "YX" 
+    }
 ##Input
 #Enter Month
 origin = st.sidebar.selectbox('Origin Airport', airports.keys())
@@ -53,3 +50,11 @@ delay = st.sidebar.number_input('Delay In Departure', value=None, placeholder="T
 
 #Generate Statistics
 submit = st.sidebar.button('Generate Statistics')
+
+if submit:
+    if(not (origin and dest and carrier and delay)):
+        st.sidebar.write("Please select all fields")
+    else:
+        x = np.array([airports.get(origin), airports.get(dest), int(carrier,36),delay])
+        odds = st.session_state['regression'].predict(x)
+        st.write(odds)

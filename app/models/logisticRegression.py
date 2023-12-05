@@ -83,7 +83,7 @@ class LogisiticRegression:
             #print((1 + np.exp(-1 * np.dot(self.X, self.B) + self.b0))[1])
             print(self.log_loss())
     
-    def prep_data(data):
+    def prep_data(self,data):
         data = data[:100000].copy()
 
         top20_airport_ids = data["ORIGIN_AIRPORT_ID"].value_counts()[0:10].keys()

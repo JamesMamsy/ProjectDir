@@ -3,14 +3,17 @@ import numpy as np
 import pandas as pd
 from models import LogisiticRegression
 
-data_loc = "../data/pickledData.pckl"
-data = pd.read_pickle(data_loc)
-
 def initModels(data):
     st.session_state['regression'] = LogisiticRegression(.1, 1000)    
     lr_X,lr_y = st.session_state['regression'].prep_data(data)
     st.session_state['regression'].fit(lr_X,lr_y)
 
+loaded = False
+if(not loaded):
+    data_loc = "../data/pickledData.pckl"
+    data = pd.read_pickle(data_loc)
+    loaded = True
+    initModels(data)
 
 st.session_state['airport_codes'] = {
     "New York, NY: John F. Kennedy International":"JFK",
