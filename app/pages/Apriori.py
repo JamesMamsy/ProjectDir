@@ -32,7 +32,8 @@ months = {
 }
 
 # create instance
-delay_analysis = FlightDelayApriori(st.session_state['data'])
+delay_analysis = FlightDelayApriori()
+# delay_analysis = FlightDelayApriori(st.session_state['data'])
 
 st.markdown("# Apriori")
 st.sidebar.header("Apriori")
@@ -41,20 +42,16 @@ st.sidebar.header("Apriori")
 month_options = list(months.items())  # Creates a list of tuples
 month = st.sidebar.selectbox('Select Month of flight', options=month_options, format_func=lambda x: x[0])
 selected_month = month[1]  # This will be the key from the months dictionary
-#selected_month = 3
 
 # Airport Code
 airport_options = list(airport_codes.items())  # Creates a list of tuples
 airport = st.sidebar.selectbox('Airport of Departure', options=airport_options, format_func=lambda x: x[0])
 selected_airport = airport[1]  # This will be the key from the airport_codes dictionary
-#selected_airport = "JFK"
 
 # Airline Code
 airline_options = list(airline_codes.items())  # Creates a list of tuples
 airline = st.sidebar.selectbox('Airline', options=airline_options, format_func=lambda x: x[0])
 selected_airline = airline[1]  # This will be the key from the airline_codes dictionary
-#selected_airline = "AA"
-
 
 #Input
 #Generate Statistics

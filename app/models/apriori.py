@@ -3,12 +3,13 @@ import numpy as np
 from mlxtend.preprocessing import TransactionEncoder
 
 class FlightDelayApriori:
-    def __init__(self,data):
+    def __init__(self):
         self.df = None
-        self.df = data
         self.load_data()
 
     def load_data(self):
+        data_loc = "../data/pickledData.pckl"
+        self.df = pd.read_pickle(data_loc)
         self.prepare_data()
         #self.pickle("*.csv", "output.pkl")
         #self.df = pd.read_pickle('output.pkl')
@@ -55,7 +56,7 @@ class FlightDelayApriori:
             # If "No Delay" is not already a category, add it
             if "No Delay" not in current_categories:
                 new_categories = current_categories + ["No Delay"]
-                filtered_df[delay_bucket_col].cat.set_categories(new_categories, in_place = True)
+                filtered_df[delay_bucket_col].cat.set_categories(new_categories, inplace=True)
 
             # Now you can fill NaN values with "No Delay"
             filtered_df[delay_bucket_col].fillna('No Delay', inplace=True)
@@ -71,10 +72,9 @@ class FlightDelayApriori:
         delay_only_df = filtered_df[filtered_df['Delay_Status'] == 'Delay']
         transformed_data = self.transform_data(delay_only_df)
         apriori_df = self.apply_transaction_encoder(transformed_data)
-        frequent_itemsets = self.apriori_from_scratch(apriori_df, min_support=0.01)
+        frequent_itemsets = self.apriori_from_scratch(apriori_df, min_support=0.005)
         highest_support_itemset = frequent_itemsets.iloc[0]['itemsets']
         highest_support_value = list(highest_support_itemset)[0]
-
         return delay_proportion, highest_support_value
 
     def transform_data(self, delay_only_df):
