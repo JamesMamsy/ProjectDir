@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 from mlxtend.preprocessing import TransactionEncoder
-from data import pickler as pk
-
 
 class FlightDelayApriori:
     def __init__(self):
@@ -10,10 +8,13 @@ class FlightDelayApriori:
         self.load_data()
 
     def load_data(self):
-        pk.pickle("*.csv", "output.pkl",
-                  "C:/Users/eliza/OneDrive/Documents/Education/OU - Student Files/Fall 2023/Data Mining/Project Files/Data Files 2")
-        self.df = pd.read_pickle('output.pkl')
+        data_loc = "output.pkl"
+        self.df = pd.read_pickle(data_loc)
         self.prepare_data()
+        #self.pickle("*.csv", "output.pkl")
+        #self.df = pd.read_pickle('output.pkl')
+        #self.prepare_data()
+
 
     def prepare_data(self):
         delay_types = ['CARRIER_DELAY', 'WEATHER_DELAY', 'NAS_DELAY', 'SECURITY_DELAY', 'LATE_AIRCRAFT_DELAY']
@@ -64,7 +65,6 @@ class FlightDelayApriori:
         all_relevant_cols = delay_bucket_cols + other_relevant_cols
 
         trim_df = filtered_df[all_relevant_cols]
-        print(trim_df.head())
         return trim_df
 
     def calculate_probabilities(self, filtered_df):
