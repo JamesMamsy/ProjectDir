@@ -11,7 +11,7 @@ class FlightDelayApriori:
 
     def load_data(self):
         pk.pickle("*.csv", "output.pkl",
-                  "C:/Users/eliza/OneDrive/Documents/Education/OU - Student Files/Fall 2023/Data Mining/Project Files/Data Files")
+                  "C:/Users/eliza/OneDrive/Documents/Education/OU - Student Files/Fall 2023/Data Mining/Project Files/Data Files 2")
         self.df = pd.read_pickle('output.pkl')
         self.prepare_data()
 
@@ -43,7 +43,29 @@ class FlightDelayApriori:
             lambda row: 'No Delay' if row[delay_bucket_cols].isnull().all() else 'Delay',
             axis=1
         )
-        return self.calculate_probabilities(filtered_df)
+        delay_bucket_cols: list[str] = \
+            ['CARRIER_DELAY_Bucket', 'WEATHER_DELAY_Bucket', 'NAS_DELAY_Bucket',
+             'SECURITY_DELAY_Bucket', 'LATE_AIRCRAFT_DELAY_Bucket']
+
+        # Replace NaN values with "No Delay" in the bucket columns
+        for delay_bucket_col in delay_bucket_cols:
+            # Get the current categories
+            current_categories = filtered_df[delay_bucket_col].cat.categories.tolist()
+
+            # If "No Delay" is not already a category, add it
+            if "No Delay" not in current_categories:
+                new_categories = current_categories + ["No Delay"]
+                filtered_df[delay_bucket_col].cat.set_categories(new_categories, inplace=True)
+
+            # Now you can fill NaN values with "No Delay"
+            filtered_df[delay_bucket_col].fillna('No Delay', inplace=True)
+
+        other_relevant_cols = ['Month', 'Delay_Status']
+        all_relevant_cols = delay_bucket_cols + other_relevant_cols
+
+        trim_df = filtered_df[all_relevant_cols]
+        print(trim_df.head())
+        return trim_df
 
     def calculate_probabilities(self, filtered_df):
         delay_proportion = (filtered_df['Delay_Status'] == 'Delay').sum() / len(filtered_df) * 100
