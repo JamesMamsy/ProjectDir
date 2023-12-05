@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from models.logisiticRegression import LogisiticRegression
+from models.logisticRegression import LogisiticRegression
 
 def initModels(data):
     st.session_state['regression'] = LogisiticRegression(.1, 1000)
@@ -13,9 +13,9 @@ if 'loaded' not in st.session_state:
 
 if(not st.session_state['loaded']):
     data_loc = "../data/pickledData.pckl"
-    data = pd.read_pickle(data_loc)
+    st.session_state['data'] = pd.read_pickle(data_loc)
     st.session_state['loaded'] = True
-    initModels(data)
+    initModels(st.session_state['data'])
 
 
 st.session_state['airport_codes'] = {

@@ -3,13 +3,12 @@ import numpy as np
 from mlxtend.preprocessing import TransactionEncoder
 
 class FlightDelayApriori:
-    def __init__(self):
+    def __init__(self,data):
         self.df = None
+        self.df = data
         self.load_data()
 
     def load_data(self):
-        data_loc = "output.pkl"
-        self.df = pd.read_pickle(data_loc)
         self.prepare_data()
         #self.pickle("*.csv", "output.pkl")
         #self.df = pd.read_pickle('output.pkl')
@@ -56,7 +55,7 @@ class FlightDelayApriori:
             # If "No Delay" is not already a category, add it
             if "No Delay" not in current_categories:
                 new_categories = current_categories + ["No Delay"]
-                filtered_df[delay_bucket_col].cat.set_categories(new_categories, inplace=True)
+                filtered_df[delay_bucket_col].cat.set_categories(new_categories, in_place = True)
 
             # Now you can fill NaN values with "No Delay"
             filtered_df[delay_bucket_col].fillna('No Delay', inplace=True)
