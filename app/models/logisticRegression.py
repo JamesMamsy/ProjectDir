@@ -86,6 +86,11 @@ class LogisiticRegression:
     def prep_data(data):
         data = data[:100000].copy()
 
+        top20_airport_ids = data["ORIGIN_AIRPORT_ID"].value_counts()[0:10].keys()
+
+        data = data[data["ORIGIN_AIRPORT_ID"].isin(top20_airport_ids)]
+        data.reset_index(drop=True, inplace=True)
+
         selected_collumns = ["ORIGIN_AIRPORT_ID","DEST_AIRPORT_ID","OP_UNIQUE_CARRIER","DEP_DELAY"]
         isDelayed = [1 if x > 0 else 0 for x in data['ARR_DELAY']]
 
